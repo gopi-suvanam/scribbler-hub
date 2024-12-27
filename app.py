@@ -1,4 +1,7 @@
 from flask import Flask, jsonify, request
+import os
+
+port = os.environ.get('PORT')
 
 app = Flask(__name__)
 
@@ -49,4 +52,4 @@ def delete_user(id):
     return jsonify({"error": "User not found"}), 404
 
 if __name__ == "__main__":
-    app.run(debug=True,port=88)
+    app.run(debug=True,port=port)
