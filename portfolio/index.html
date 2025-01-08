@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.0/dist/vue.global.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  
+          <link rel="stylesheet" href="/static/res/css/style.css">
+    <link rel="stylesheet" href="https://scribbler.live/assets/css/main.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title>Scribbler Hub</title>
+	<link rel="icon" href="/static/res/img/favicon.ico" type="image/x-icon">
+
+    <meta name="description" content="">
+	
+	
+  <title>Awesome Notebooks</title>
+</head>
+<body>
+  <div id="app">
+    <!-- Start Header Area -->
+    <header class="header navbar-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-12">
+            <nav class="navbar navbar-expand-lg">
+              <b class="navbar-brand" onclick='window.location="/"'>Scribble Hub</b>
+              <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                      aria-expanded="false" aria-label="Toggle navigation">
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                <ul id="nav" class="navbar-nav ms-auto">
+                  <li class="nav-item"><a href="#features">Features</a></li>
+                  <li class="nav-item"><a href="/docs">Docs</a></li>
+                  <li class="nav-item"><a href="/tutorials">Tutorials</a></li>
+                  <li class="nav-item"><a href="/blog">Blog</a></li>
+                </ul>
+              </div>
+              <div class="button add-list-button">
+                <a href="https://app.scribbler.live/" target="_blank" class="btn">Start Building</a>
+              </div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Start Hero Area -->
+    <section id="home" class="hero-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-5 col-md-12 col-12">
+            <div class="hero-content">
+              <div id="repo-info">
+                <h1>{{ repoName ? repoName : 'Loading...' }}</h1><div class="button add-list-button">
+                <a :href="'https://github.com/' + repoName" target="_blank" class="btn btn-alt">
+                  <i class="lni lni-github-original"></i>Github
+                </a>
+              </div>
+              </div>
+              <p>Scribbler notebooks for Experimenting in JavaScript.</p>
+              <p><strong>Learning - Testing - Scientific computation - AI/ML</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Hero Area -->
+
+
+	
+	<div class="content">
+		<ul id="directories-list">
+			<li>
+				<h3>Awesome Notebooks</h3>
+				<hr>
+				<ul class="row">                
+					<li v-for="file in rootFiles" class="col-md-3 col-sm-6 col-xs-12 mb-4 sampleCard">
+						<a :href="'https://app.scribbler.live/?jsnb=github:' + repoName  + '/' + file">
+						{{formatFileName(file)}}
+						</a>
+					</li>
+				</ul>
+			<li>
+			
+			<li v-for="(files, directory) in directories" :key="directory">
+				<h3>{{directory}}</h3>
+				<hr>
+				<ul class="row">                
+					<li v-for="file in files" class="col-md-3 col-sm-6 col-xs-12 mb-4 sampleCard">
+						<a :href="'https://app.scribbler.live/?jsnb=github:' + repoName + '/' + directory + '/' + file">
+						{{formatFileName(file)}}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<hr>
+
+	
+		
+
+    </div>
+	
+  </div>
+  <script>
+	  
+	async function fetchTopLevelStructure(userName, repoName) {
+	  const ghToken = localStorage.getItem("gh-token");
+	  const headers = {};
+	  if (ghToken) {
+		headers['Authorization'] = `Bearer ${ghToken}`;
+	  }
+
+	  const githubApiUrl = "https://api.github.com";
+	  const repoUrl = `${githubApiUrl}/repos/${userName}/${repoName}/git/trees/main?recursive=true`;
+
+	  // Fetch the repository tree
+	  const response = await fetch(repoUrl, { headers: headers });
+	  if (!response.ok) {
+		console.error(`Error fetching repository tree: ${response.status} ${response.statusText}`);
+		return null;
+	  }
+
+	  const { tree } = await response.json();
+	  const directories = {  };
+      let rootFiles=[];
+	  // Process tree data
+	  tree.forEach((item) => {
+		const parts = item.path.split("/");
+		if (parts.length === 1 && item.type === "blob" && item.path.endsWith(".jsnb")) {
+		  // File in the root directory
+		  rootFiles.push(item.path);
+		} else if (parts.length === 2 && item.type === "blob" && item.path.endsWith(".jsnb")) {
+		  // File in a first-level directory
+		  const dirName = parts[0];
+		  directories[dirName] = directories[dirName] || [];
+		  directories[dirName].push(parts[1]);
+		}
+	  });
+
+	  return {directories,rootFiles};
+	}
+
+
+
+	
+
+	</script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          repoName: '',
+          directories: {}
+        };
+      },
+      created() {
+        this.fetchRepoData();
+      },
+      methods: {
+        async fetchRepoData() {
+          try {
+			const urlFragment = window.location.hash.slice(2); // Remove the "#!"
+            const [userName, repoName] = urlFragment.split("/");
+
+            if (!userName || !repoName) {
+                this.repoName = "Invalid repository.";
+                return;
+            }
+
+            this.repoName = `${userName}/${repoName}`;
+			
+            let {directories,rootFiles}=await fetchTopLevelStructure(userName, repoName);
+			this.directories = directories;
+			this.rootFiles = rootFiles;
+          } catch (error) {
+            console.error('Error fetching repository data:', error);
+          }
+        },
+		formatFileName(file) {
+			return file.replace(/[-_]/g, ' ').replace('.jsnb', '');
+		  },
+        
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
