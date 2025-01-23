@@ -36,6 +36,11 @@
 	  // Initialize Firebase
 	  const app = initializeApp(firebaseConfig);
 	  const analytics = getAnalytics(app);
+
+	 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js'
+	 // Initialize Firebase Authentication and get a reference to the service
+	 const auth = getAuth(app);
+
 	</script>
 	
 	<!-- Google tag (gtag.js) -->
