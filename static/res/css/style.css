@@ -7,13 +7,9 @@
     .sampleCard {
       border: 1px solid #ddd;
       border-radius: 10px;
-      padding: 20px !important;
-      margin-bottom: 20px;
-      margin-left: 5px;
-      margin-right: 5px;
+      margin:5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-     border-left: 15px #fede02 solid;
-	 overflow: scroll;
+      border-left: 15px #fede02 solid;
     }
 
    .title{
@@ -28,5 +24,14 @@
       padding:40px;
     }
    .content{
-     padding:30px;
+         width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+	margin-bottom: 30px;
    }
+.btn{
+	border:2px solid #333;
+	border-radius:5px;
+	margin:5px;
+}
