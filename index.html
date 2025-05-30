@@ -147,7 +147,16 @@
 		</div>
 	<div id="app">
 	  <div class="content">
-	   
+	   		<h5>Ready to Submit Your Repo?</h5>
+		<button class="button add-list-button btn" id="githubSignIn" style="display: block;border:thin black solid;broder-radius:5ps">Sign In with GitHub</button>
+		<form id="repo-form">
+		  <select class="form-select" id="repo-dropdown">
+			<option value="">Select a repository</option>
+		  </select>
+		  <button class="btn" type="submit">Submit</button><div id="message"></div> <!-- To display success/error messages -->
+		</form>
+		
+		<h6>Ensure you have built a Scribbler notebook and stored it as a .jsnb file in the repo. Use <a href='https://app.scribbler.live' target='_blank'><u>app.scribbler.live</u></a></h6>
 			<br>
 			
 	    <h4>Great Developers</h4>
@@ -165,16 +174,7 @@
 			  </li>
 			</ul>
 			<br>
-		<h5>Ready to Submit Your Repo?</h5>
-		<button class="button add-list-button btn" id="githubSignIn" style="display: block;border:thin black solid;broder-radius:5ps">Sign In with GitHub</button>
-		<form id="repo-form">
-		  <select class="form-select" id="repo-dropdown">
-			<option value="">Select a repository</option>
-		  </select>
-		  <button class="btn" type="submit">Submit</button><div id="message"></div> <!-- To display success/error messages -->
-		</form>
-		
-		<h6>Ensure you have built a Scribbler notebook and stored it as a .jsnb file in the repo. Use <a href='https://app.scribbler.live' target='_blank'><u>app.scribbler.live</u></a></h6>
+
 		
 	  </div>
 	</div>
