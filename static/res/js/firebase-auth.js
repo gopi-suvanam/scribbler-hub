@@ -1,7 +1,7 @@
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithPopup, GithubAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDocs , setDoc, getDoc, collection, query, where  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"; // Import Firestore modules
+import { getFirestore, doc, getDocs , setDoc, getDoc, collection, query, where,serverTimestamp   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"; // Import Firestore modules
 
 
 // Import functions from libs.js
@@ -57,6 +57,7 @@ export async function saveUserProfileToFirestore(db, userId, username, name, ema
 			name,
 			email,
 			username,
+		        createdAt: serverTimestamp()
 		  });
 		  console.log('User profile saved to Firestore');
 		}
@@ -66,13 +67,14 @@ export async function saveUserProfileToFirestore(db, userId, username, name, ema
 			userId,
 			name,
 			email,
-			username,
+			username
 		  });
 		  await setDoc(userRef, {
 			userId,
 			name,
 			email,
 			username,
+		        createdAt: serverTimestamp()
 		  });
 		  console.log('User profile saved to Firestore');
 	}
